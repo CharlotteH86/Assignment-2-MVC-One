@@ -2,10 +2,10 @@ package login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,65 +17,74 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * Default constructor. 
-     */
-    public LoginPage() {
-        // TODO Auto-generated constructor stub
-    }
-
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Default constructor.
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	public LoginPage() {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		
-		
+
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 
 		String pass = request.getParameter("pass");
 		String uname = request.getParameter("uname");
-		
+
 		LoginBean bean = new LoginBean();
-		
+
 		bean.setName(uname);
 		bean.setPassword(pass);
-		
+
 		request.setAttribute("bean", bean);
-		
-		boolean status=bean.validate();
-		
-		
-		if(status) {
-			
+
+		boolean status = bean.validate();
+		boolean statustwo = bean.validateTwo();
+
+		if (status) {
+
 			RequestDispatcher rd = request.getRequestDispatcher("login-success.jsp");
 			rd.forward(request, response);
-		}else{
+		} else if (statustwo) {
+
+			RequestDispatcher rd = request.getRequestDispatcher("login-success.jsp");
+			rd.forward(request, response);
+
+		} else {
 			RequestDispatcher rd = request.getRequestDispatcher("login-error.jsp");
 			rd.forward(request, response);
-			
 		}
-		
-		/*if (uname.equals("admin") && pass.equals("admin")) {
-			out.print("<h3>You entered the right usename and password</h3>");
-		} else {
-			response.sendRedirect("login_page.jsp");
-		}*/
-		
-		
-		
+
+		Cookie cookieUname = new Cookie("Username", uname);
+		Cookie cookiePass = new Cookie("Password", pass);
+		cookieUname.setMaxAge(2000);
+		cookiePass.setMaxAge(2000);
+
+		response.addCookie(cookieUname);
+		response.addCookie(cookiePass);
+
 		out.close();
-		
+
 	}
 
 }

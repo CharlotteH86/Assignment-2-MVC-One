@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>UserOne's page</title>
+<title>UserTwo's page</title>
 </head>
 <body>
 
@@ -15,9 +15,9 @@
 	<%
 	LoginBean bean = (LoginBean) request.getAttribute("bean");
 
-	String userOne = bean.getName();
+	String userTwo = bean.getName();
 
-	out.print("Welcome! " + userOne);
+	out.print("Welcome to your new account! " + userTwo);
 	%>
 
 </body>

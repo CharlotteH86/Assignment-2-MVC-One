@@ -29,4 +29,14 @@ public class LoginBean {
 		}
 
 	}
+
+	public boolean validateTwo() {
+
+		if (name.equals("UserTwo") && password.equals("admin123")) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 }

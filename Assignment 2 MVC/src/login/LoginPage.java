@@ -2,6 +2,8 @@ package login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -51,6 +53,14 @@ public class LoginPage extends HttpServlet {
 		String pass = request.getParameter("pass");
 		String uname = request.getParameter("uname");
 
+		Cookie cookieUname = new Cookie("Username", uname);
+		Cookie cookiePass = new Cookie("Password", pass);
+		cookieUname.setMaxAge(20000);
+		cookiePass.setMaxAge(20000);
+
+		response.addCookie(cookieUname);
+		response.addCookie(cookiePass);
+
 		LoginBean bean = new LoginBean();
 
 		bean.setName(uname);
@@ -62,26 +72,18 @@ public class LoginPage extends HttpServlet {
 		boolean statustwo = bean.validateTwo();
 
 		if (status) {
-
 			RequestDispatcher rd = request.getRequestDispatcher("login-success.jsp");
 			rd.forward(request, response);
+
 		} else if (statustwo) {
 
-			RequestDispatcher rd = request.getRequestDispatcher("login-success.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("login-usertwo.jsp");
 			rd.forward(request, response);
 
 		} else {
 			RequestDispatcher rd = request.getRequestDispatcher("login-error.jsp");
 			rd.forward(request, response);
 		}
-
-		Cookie cookieUname = new Cookie("Username", uname);
-		Cookie cookiePass = new Cookie("Password", pass);
-		cookieUname.setMaxAge(2000);
-		cookiePass.setMaxAge(2000);
-
-		response.addCookie(cookieUname);
-		response.addCookie(cookiePass);
 
 		out.close();
 

@@ -8,6 +8,11 @@
 </head>
 <body>
 
+	
+<%Cookie cookie = null;
+Cookie[] cookies = null;
+cookies = request.getCookies(); %>
+	
 <form action="<%=request.getContextPath()%>/LoginPage" method="post">
 
 	<p>Username:</p><input name="uname" type="text" value="Username" onclick="this.value=''" required> 

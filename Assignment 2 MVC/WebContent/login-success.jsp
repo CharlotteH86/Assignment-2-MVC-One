@@ -10,6 +10,10 @@
 </head>
 <body>
 
+	<%Cookie cookie = null;
+Cookie[] cookies = null;
+cookies = request.getCookies(); %>
+	
 	<p>Login Success</p>
 
 	<%
